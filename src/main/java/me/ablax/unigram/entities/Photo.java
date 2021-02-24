@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Entity(name = "photos")
 public class Photo {
-    private static final String CLOUDINARY_STORAGE = "https://res.cloudinary.com/ablax-me/image/upload/w_500,h_500,q_auto/";
+    private static final String CLOUDINARY_STORAGE = "https://res.cloudinary.com/ablax-me/image/upload/h_500,q_auto/";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

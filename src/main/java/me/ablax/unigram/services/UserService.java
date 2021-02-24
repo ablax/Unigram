@@ -75,10 +75,9 @@ public class UserService {
             user.getLikedPhotos().remove(one);
             userRepository.save(user);
             return false;
-        } else {
-            user.getLikedPhotos().add(one);
-            userRepository.save(user);
-            return true;
         }
+        user.getLikedPhotos().add(one);
+        userRepository.save(user);
+        return true;
     }
 }
