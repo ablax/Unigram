@@ -26,19 +26,31 @@ public class PhotoService {
         this.userService = userService;
     }
 
-    public List<PhotoDto> getAllPhotos(final UserDto user) {
-        final List<PhotoDto> photos = photoRepository.findAll()
-                .stream()
+    public List<PhotoDto> getAllPhotos(final UserDto loggedUser) {
+        final List<Photo> allPhotos = photoRepository.findAll();
+        return markLikedPhotos(allPhotos, loggedUser);
+    }
+
+    public List<PhotoDto> getAllPhotosBy(final UserDto user, final UserDto loggedUser) {
+        final User photosBy = userService.findById(user.getUserId());
+        final List<Photo> allByOwner = photoRepository.findAllByOwner(photosBy);
+        return markLikedPhotos(allByOwner, loggedUser);
+    }
+
+    private List<PhotoDto> markLikedPhotos(final List<Photo> photoEntities, final UserDto loggedUser) {
+        final List<PhotoDto> photos = photoEntities.stream()
                 .sorted(Comparator.comparing(Photo::getCreatedAt).reversed())
                 .map(Photo::toDto)
                 .collect(Collectors.toList());
-        final List<Long> likedPhotos = userService.getLikedPhotosIds(user.getUserId());
+
+        final List<Long> likedPhotos = userService.getLikedPhotosIds(loggedUser.getUserId());
 
         photos.parallelStream().forEach(photoDto -> {
             if (likedPhotos.contains(photoDto.getPhotoId())) {
                 photoDto.setLiked(true);
             }
         });
+
         return photos;
     }
 

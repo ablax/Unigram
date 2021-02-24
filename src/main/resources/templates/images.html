@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           type="text/css">
-    <title>Latest images</title>
+    <title th:text="${title}"></title>
     <link href="/theme.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -21,7 +21,7 @@
     <div class="container">
         <div class="row">
             <div class="text-center mx-auto col-md-12">
-                <h1 class="text-white mb-4" th:text="${title}">Latest posts</h1>
+                <a th:href="${redirect}"><h1 class="text-white mb-4" th:text="${title}"></h1></a>
             </div>
         </div>
         <div class="row">

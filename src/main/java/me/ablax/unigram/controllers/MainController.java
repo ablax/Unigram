@@ -44,10 +44,23 @@ public class MainController {
         if (LoginUtils.isLoggedIn(session)) {
             model.addAttribute("photos", photoService.getAllPhotos(LoginUtils.getUser(session)));
             model.addAttribute("title", "Latest posts");
+            model.addAttribute("redirect", "/my");
             return "images";
         } else {
             return "login";
         }
+    }
+
+    @GetMapping(value = "/my")
+    public String myPictures(final ModelMap model, final HttpSession session) {
+        if (LoginUtils.isLoggedIn(session)) {
+            final UserDto loggedUser = LoginUtils.getUser(session);
+            model.addAttribute("photos", photoService.getAllPhotosBy(loggedUser, loggedUser));
+            model.addAttribute("title", "My posts");
+            model.addAttribute("redirect", "/");
+            return "images";
+        }
+        return HOME_PAGE;
     }
 
     @GetMapping(value = "/register")
